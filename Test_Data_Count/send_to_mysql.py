@@ -1,5 +1,6 @@
 import pymysql
 from scrapy import settings
+from pymysql.converters import escape_string
 from write_data_from_kafka import get_kafka_data
 class DataToMysql:
     def __init__(self,host,user,password,db,port):
@@ -19,7 +20,7 @@ class DataToMysql:
         sql_key=''
         sql_value=''
         for key in info_dict.keys():  # 生成insert插入语句
-            sql_value = (sql_value + '"' + pymysql.escape_string(info_dict[key]) + '"' + ',')
+            sql_value = (sql_value + '"' + str(info_dict[key]) + '"' + ',')
             sql_key = sql_key + ' ' + key + ','
 
         try:
@@ -37,12 +38,13 @@ class DataToMysql:
                                     (table_name, sql_key[:-1], sql_value[:-1]))
                 self.conn.commit()  # 提交当前事务
             else:
-                raise
+                raise e
 
 
 if __name__ == '__main__':
 
     str_dic=get_kafka_data()
     print(str_dic)
+    # str_dir={"a":1,"b":10}
     mysql_info=DataToMysql('10.0.9.45','Rootmaster','Rootmaster@777','test',18103)
-    mysql_info.write('test1',str_dic)
+    mysql_info.write('test2',str_dic)

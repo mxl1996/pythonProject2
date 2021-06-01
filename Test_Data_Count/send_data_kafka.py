@@ -26,7 +26,6 @@ for i in range(100):
         "uv": uv,
         "num1": num1,
         "num2": num2,
-        "float": 1.0978,
         "id": i,
         "stringtime": t
     }

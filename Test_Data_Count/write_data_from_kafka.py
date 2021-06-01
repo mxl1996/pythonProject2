@@ -1,7 +1,7 @@
 from kafka import KafkaConsumer
 import time
 import json
-
+import pymysql
 
 
 
@@ -15,8 +15,7 @@ def get_kafka_data():
             value_dict = eval(value_str)
             print(value_dict)
             return value_dict
-if __name__ == '__main__':
-    get_kafka_data()
+
 
 
 
