@@ -46,5 +46,6 @@ if __name__ == '__main__':
     str_dic=get_kafka_data()
     print(str_dic)
     # str_dir={"a":1,"b":10}
+    # str_dic={"name": "卢秀荣", "age": 10, "gender": "男", "uv": 357, "num1": 30, "num2": 973,  "id": 46, "stringtime": 1622532999864}
     mysql_info=DataToMysql('10.0.9.45','Rootmaster','Rootmaster@777','test',18103)
     mysql_info.write('test2',str_dic)

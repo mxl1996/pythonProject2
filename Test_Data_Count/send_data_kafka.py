@@ -30,7 +30,7 @@ for i in range(100):
         "stringtime": t
     }
 
-    producer.send("auto_test1", data)
+    producer.send("auto_test2", data)
     print(data)
     time.sleep(1)
 
