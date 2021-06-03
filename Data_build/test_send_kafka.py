@@ -29,7 +29,7 @@ for i in range(50000):
         "id":i,
         "stringtime":t
     }
-    producer.send("send2", data)
+    producer.send("send1", data)
     print(data)
     time.sleep(1)
 

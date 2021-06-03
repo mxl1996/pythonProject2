@@ -10,7 +10,7 @@ producer = KafkaProducer(
 )
 for i in range(100):
     fake = Faker("zh_CN")
-    name = fake.name()
+    # name = fake.name()
     age = random.randint(18, 50)
     uv = random.randint(100, 1000)
     num1 = random.randint(10, 100)
@@ -18,19 +18,15 @@ for i in range(100):
     t = int(round(time.time() * 1000))
     gender = random.choice('男女')
     test = str("研发部" + str(i))
+    name=str("测试"+str(i))
     provice = fake.province()
     data={
-        "name": name,
-        "age": 10,
-        "gender": gender,
-        "uv": uv,
-        "num1": num1,
-        "num2": num2,
         "id": i,
-        "stringtime": t
+        "name":name,
+        "age": 10
     }
 
-    producer.send("auto_test2", data)
+    producer.send("auto_test6", data)
     print(data)
     time.sleep(1)
 

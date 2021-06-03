@@ -1,24 +1,27 @@
 import pymysql
 from scrapy import settings
 from pymysql.converters import escape_string
-from write_data_from_kafka import get_kafka_data
+from read_result_data_kafka import get_kafka_data
+
+
 class DataToMysql:
-    def __init__(self,host,user,password,db,port):
+    def __init__(self, host, user, password, db, port):
         try:
-            self.conn=pymysql.connect(host=host,user=user,password=password,db=db,port=port)
-            self.cursor=self.conn.cursor()
+            self.conn = pymysql.connect(host=host, user=user, password=password, db=db, port=port)
+            self.cursor = self.conn.cursor()
         except pymysql.Error as e:
             print("数据库连接信息报错")
             raise e
-    def write(self,table_name,info_dict):
+
+    def write(self, table_name, info_dict):
         """
         根据table_name与info自动生成建表语句和insert插入语句
         :param table_name: 数据需写入的表名
         :param info_dict: 需要写入的内容，类型为字典
         :return:
         """
-        sql_key=''
-        sql_value=''
+        sql_key = ''
+        sql_value = ''
         for key in info_dict.keys():  # 生成insert插入语句
             sql_value = (sql_value + '"' + str(info_dict[key]) + '"' + ',')
             sql_key = sql_key + ' ' + key + ','
@@ -42,10 +45,10 @@ class DataToMysql:
 
 
 if __name__ == '__main__':
+    for i in get_kafka_data():
+        mysql_info = DataToMysql('10.0.9.45', 'Rootmaster', 'Rootmaster@777', 'test', 18103)
+        mysql_info.write('test4', i)
+        print("写入成功%s" % i)
 
-    str_dic=get_kafka_data()
-    print(str_dic)
-    # str_dir={"a":1,"b":10}
-    # str_dic={"name": "卢秀荣", "age": 10, "gender": "男", "uv": 357, "num1": 30, "num2": 973,  "id": 46, "stringtime": 1622532999864}
-    mysql_info=DataToMysql('10.0.9.45','Rootmaster','Rootmaster@777','test',18103)
-    mysql_info.write('test2',str_dic)
+# str_dir={"a":1,"b":10}
+# str_dic={"name": "卢秀荣", "age": 10, "gender": "男", "uv": 357, "num1": 30, "num2": 973,  "id": 46, "stringtime": 1622532999864}
